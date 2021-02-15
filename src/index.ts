@@ -1,12 +1,18 @@
 import AeroClient from "@aeroware/aeroclient";
 import { config as dotenv } from "dotenv";
 import connect from "./database/connect";
+import users from "./database/models/user";
+import addExp from "./utils/leveling";
 
 dotenv();
 
 (async () => {
     try {
         await connect();
+        await import("./database/weapons");
+        await import("./database/ships");
+
+        const expBuffer = new Map<string, boolean>();
 
         const client = new AeroClient({
             token: process.env.TOKEN,
@@ -23,6 +29,24 @@ dotenv();
                 type: "PLAYING",
                 name: "battleship",
             });
+        });
+
+        client.use(async ({ message }, next, stop) => {
+            const user = await users.findById(message.author.id);
+
+            if (!user)
+                await users.create({
+                    _id: message.author.id,
+                });
+            else {
+                if (!expBuffer.get(message.author.id)) {
+                    expBuffer.set(message.author.id, true);
+                    addExp(message.author.id, 1);
+                    setTimeout(() => expBuffer.delete(message.author.id), 60000);
+                }
+            }
+
+            return next();
         });
     } catch (error) {
         console.error(error);

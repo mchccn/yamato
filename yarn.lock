@@ -209,6 +209,11 @@ are-we-there-yet@~1.1.2:
     delegates "^1.0.0"
     readable-stream "^2.0.6"
 
+ascii-bar@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/ascii-bar/-/ascii-bar-1.0.3.tgz#33038c55de056cf570b2c96450c7cd085b43f421"
+  integrity sha512-03/Or+57cC3kGc7oOS4ASt/HPmApUfEs+pGd+W2Z878Y2CpZ76xKiNxTxwdLFlFXFBnJNFM1c6kO8fuYwwzYlg==
+
 asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"

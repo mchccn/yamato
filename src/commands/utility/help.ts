@@ -1,6 +1,6 @@
 import { Command } from "@aeroware/aeroclient/dist/types";
 import ms from "ms";
-import Embed from "../utils/Embed";
+import Embed from "../../utils/Embed";
 
 export default {
     name: "help",

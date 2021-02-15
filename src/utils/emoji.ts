@@ -1,0 +1,4 @@
+const YAMATO_COIN_ID = "810604452716216320";
+const YAMATO_COIN = `<:y_coin:${YAMATO_COIN_ID}>`;
+
+export { YAMATO_COIN, YAMATO_COIN_ID };
