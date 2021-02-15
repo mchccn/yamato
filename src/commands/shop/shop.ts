@@ -6,6 +6,7 @@ import weapons from "../../database/models/weapon";
 
 export default {
     name: "shop",
+    //TODO: ADD COMMAND METADATA
     args: true,
     usage: "[weapons/ships/extras]",
     async callback({ message, args }) {
