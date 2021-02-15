@@ -33,7 +33,7 @@ export default {
                 .addField(
                     `${user.coins} coins`,
                     `**Level ${user.level}**\n${user.exp} exp earned\n${`\`\`\`${"█"
-                        .repeat(25 / ((user.exp / expNeeded(user.level)) * 100))
+                        .repeat(((user.exp / expNeeded(user.level)) * 100) / 4)
                         .padEnd(25, " ")}\`\`\``}`
                 )
                 .setThumbnail(apiUser.displayAvatarURL({ dynamic: true }))
