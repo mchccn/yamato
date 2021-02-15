@@ -2,20 +2,20 @@ import { Command } from "@aeroware/aeroclient/dist/types";
 import users from "../../database/models/user";
 
 export default {
-    name: "exp",
+    name: "coins",
     args: true,
-    usage: "<exp>",
+    usage: "<coins>",
     category: "admin",
     hidden: true,
     async callback({ message, args }) {
-        const exp = parseInt(args[0]) || 0;
+        const coins = parseInt(args[0]) || 0;
 
         await users.findByIdAndUpdate(message.author.id, {
             $inc: {
-                exp,
+                coins,
             },
         });
 
-        return message.channel.send(`Added ${exp} exp to you!`);
+        return message.channel.send(`Added ${coins} coin${coins !== 1 ? "s" : ""} to you!`);
     },
 } as Command;

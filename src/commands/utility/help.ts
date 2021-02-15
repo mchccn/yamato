@@ -16,7 +16,9 @@ export default {
 
         const categories = new Set<string>();
 
-        commands.forEach((cmd) => (cmd.category ? categories.add(cmd.category) : null));
+        commands.forEach((cmd) =>
+            cmd.category && cmd.category !== "admin" ? categories.add(cmd.category) : null
+        );
 
         const prefix = message.guild
             ? (await client.prefixes.get(message.guild?.id)) ||

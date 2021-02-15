@@ -12,17 +12,17 @@ export default {
     async callback({ message, args, client }) {
         const user = (await users.findById(message.author.id))!;
 
-        const monies = Math.max(
+        const coins = Math.max(
             args.filter((a) => a.toUpperCase() === a).length +
                 Math.floor(Math.random() * 5) +
                 5,
             25 + Math.floor(Math.random() * 5)
         );
 
-        user.coins += monies;
+        user.coins += coins;
 
         await user.save();
 
-        return message.channel.send(`${YAMATO_COIN} You earned ${monies} coins!`);
+        return message.channel.send(`${YAMATO_COIN} You earned ${coins} coins!`);
     },
 } as Command;

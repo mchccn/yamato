@@ -6,9 +6,13 @@ import weapons from "../../database/models/weapon";
 
 export default {
     name: "shop",
-    //TODO: ADD COMMAND METADATA
+    aliases: ["market", "items", "view"],
     args: true,
     usage: "[weapons/ships/extras]",
+    description: "Displays item info neatly in a pagination.",
+    details: "Only displays items you unlocked.",
+    category: "shop",
+    cooldown: 5,
     async callback({ message, args }) {
         const user = (await users.findById(message.author.id))!;
 
@@ -36,7 +40,7 @@ export default {
                         .map((w) =>
                             new AeroEmbed()
                                 .setTitle(w.name)
-                                .setDescription(w.description || "No description")
+                                .setDescription(w.description)
                                 .twoByTwo([
                                     [
                                         {

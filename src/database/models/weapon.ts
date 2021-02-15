@@ -6,6 +6,10 @@ export interface IPureWeapon {
     damage: IWeapon["damage"];
     type: IWeapon["type"];
     effect: IWeapon["effect"];
+    deviation: IWeapon["deviation"];
+    critChance: IWeapon["critChance"];
+    level: IWeapon["level"];
+    maxLevel: IWeapon["maxLevel"];
     levelRequired: IWeapon["levelRequired"];
     cost: IWeapon["cost"];
 }
@@ -16,6 +20,10 @@ export interface IWeapon extends Document {
     damage: number;
     type: "LIGHT" | "MEDIUM" | "HEAVY";
     effect: "CRYO" | "PYRO" | "KINETIC" | "TOXIC" | "CORROSION" | "SUPRESSION" | "NONE";
+    deviation: number;
+    critChance: number;
+    level: number;
+    maxLevel: number;
     levelRequired: number;
     cost: number;
 }
@@ -41,6 +49,22 @@ export const weaponSchema = new mongoose.Schema({
     effect: {
         type: String,
         enum: ["CRYO", "PYRO", "KINETIC", "TOXIC", "CORROSION", "SUPRESSION", "NONE"],
+        required: true,
+    },
+    deviation: {
+        type: Number,
+        required: true,
+    },
+    critChance: {
+        type: Number,
+        required: true,
+    },
+    level: {
+        type: Number,
+        required: true,
+    },
+    maxLevel: {
+        type: Number,
         required: true,
     },
     levelRequired: {

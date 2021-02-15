@@ -6,6 +6,9 @@ export interface IPureShip {
     description: IShip["description"];
     class: IShip["class"];
     health: IShip["health"];
+    maxHealth: IShip["maxHealth"];
+    level: IShip["level"];
+    maxLevel: IShip["maxLevel"];
     speed: IShip["speed"];
     weapons: IShip["weapons"];
     levelRequired: IShip["levelRequired"];
@@ -24,6 +27,9 @@ export interface IShip extends Document {
         | "DESTROYER"
         | "SUBMARINE";
     health: number;
+    maxHealth: number;
+    level: number;
+    maxLevel: number;
     speed: number;
     weapons: {
         heavies: IWeapon[];
@@ -60,6 +66,18 @@ export const shipSchema = new mongoose.Schema({
         required: true,
     },
     health: {
+        type: Number,
+        required: true,
+    },
+    maxHealth: {
+        type: Number,
+        required: true,
+    },
+    level: {
+        type: Number,
+        required: true,
+    },
+    maxLevel: {
         type: Number,
         required: true,
     },
