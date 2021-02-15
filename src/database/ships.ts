@@ -9,6 +9,9 @@ import ships, { IPureShip } from "./models/ship";
                 class: "BATTLESHIP",
                 description: "A standard ship.",
                 health: 100,
+                maxHealth: 100,
+                level: 1,
+                maxLevel: 12,
                 levelRequired: 0,
                 speed: 20,
                 weapons: {
@@ -26,6 +29,9 @@ import ships, { IPureShip } from "./models/ship";
                 class: "CRUISER",
                 description: "Super fast and light.",
                 health: 80,
+                maxHealth: 80,
+                level: 1,
+                maxLevel: 12,
                 levelRequired: 2,
                 speed: 40,
                 weapons: {
@@ -43,6 +49,9 @@ import ships, { IPureShip } from "./models/ship";
                 class: "DESTROYER",
                 description: "Good firepower and speed.",
                 health: 120,
+                maxHealth: 120,
+                level: 1,
+                maxLevel: 12,
                 levelRequired: 5,
                 speed: 25,
                 weapons: {
@@ -60,6 +69,9 @@ import ships, { IPureShip } from "./models/ship";
                 class: "BATTLESHIP",
                 description: "Light but durable.",
                 health: 160,
+                maxHealth: 160,
+                level: 1,
+                maxLevel: 15,
                 levelRequired: 8,
                 speed: 22,
                 weapons: {
@@ -77,6 +89,9 @@ import ships, { IPureShip } from "./models/ship";
                 class: "FRIGATE",
                 description: "Supportive ship with decent firepower.",
                 health: 140,
+                maxHealth: 140,
+                level: 1,
+                maxLevel: 15,
                 levelRequired: 12,
                 speed: 30,
                 weapons: {
@@ -94,6 +109,9 @@ import ships, { IPureShip } from "./models/ship";
                 class: "CARRIER",
                 description: "A small but speedy carrier.",
                 health: 140,
+                maxHealth: 140,
+                level: 1,
+                maxLevel: 20,
                 levelRequired: 15,
                 speed: 35,
                 weapons: {
@@ -111,6 +129,9 @@ import ships, { IPureShip } from "./models/ship";
                 class: "SUBMARINE",
                 description: "*unterseeboot intensifies*",
                 health: 140,
+                maxHealth: 140,
+                level: 1,
+                maxLevel: 20,
                 levelRequired: 15,
                 speed: 35,
                 weapons: {
@@ -132,6 +153,9 @@ import ships, { IPureShip } from "./models/ship";
                 levelRequired,
                 speed,
                 weapons,
+                level,
+                maxHealth,
+                maxLevel,
             }) =>
                 ships.findOneAndUpdate(
                     {
@@ -146,6 +170,9 @@ import ships, { IPureShip } from "./models/ship";
                         levelRequired,
                         speed,
                         weapons,
+                        level,
+                        maxHealth,
+                        maxLevel,
                     },
                     {
                         upsert: true,

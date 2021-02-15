@@ -39,6 +39,8 @@ dotenv();
                     _id: message.author.id,
                 });
             else {
+                if (user.banned) return stop();
+
                 if (!expBuffer.get(message.author.id)) {
                     expBuffer.set(message.author.id, true);
                     addExp(message.author.id, 1);

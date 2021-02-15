@@ -1,3 +1,4 @@
+import { utils } from "@aeroware/aeroclient";
 import { Command } from "@aeroware/aeroclient/dist/types";
 import users from "../../database/models/user";
 import Embed from "../../utils/Embed";
@@ -30,6 +31,11 @@ export default {
         return message.channel.send(
             new Embed()
                 .setTitle(apiUser.username)
+                .addField(
+                    `${utils.formatMacroCase(user.league)} league`,
+                    `**${user.trophies} trophies**
+${((user.wins / user.battles || 0) * 100).toFixed(2)}% win rate | ${user.battles} battles`
+                )
                 .addField(
                     `${user.coins} coins`,
                     `**Level ${user.level}**\n${user.exp} exp earned\n${`\`\`\`${"█"

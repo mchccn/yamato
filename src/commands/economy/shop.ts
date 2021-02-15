@@ -8,7 +8,7 @@ export default {
     name: "shop",
     aliases: ["market", "items", "view"],
     args: true,
-    usage: "[weapons/ships/extras]",
+    usage: "<weapons/ships/extras>",
     description: "Displays item info neatly in a pagination.",
     details: "Only displays items you unlocked.",
     category: "shop",
@@ -63,6 +63,12 @@ export default {
                                         },
                                     ],
                                 ])
+                                .addField(
+                                    "Weapon details",
+                                    `Deviation: ${
+                                        w.deviation
+                                    } damage\nCrit chance: ${w.critChance.toFixed(2)}%`
+                                )
                                 .setColor(color)
                         )
                 );
@@ -106,6 +112,7 @@ export default {
                         )
                 );
             case "extras":
+                return message.channel.send(`\`extras\` is still in beta.`);
             default:
                 return message.channel.send(
                     `You can only view \`weapons\`, \`ships\`, and \`extras\`.`

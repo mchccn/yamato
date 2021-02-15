@@ -5,7 +5,7 @@ export function expNeeded(level: number): number {
 }
 
 export default async function addExp(id: string, amount: number) {
-    const userInfo = (await users.findByIdAndUpdate(
+    const user = (await users.findByIdAndUpdate(
         id,
         {
             $inc: { exp: amount },
@@ -15,8 +15,9 @@ export default async function addExp(id: string, amount: number) {
         }
     ))!;
 
-    let exp = userInfo.exp;
-    let level = userInfo.level;
+    let exp = user.exp;
+    let oldLevel = user.level;
+    let level = user.level;
 
     let needed = expNeeded(level);
 
@@ -30,5 +31,9 @@ export default async function addExp(id: string, amount: number) {
         });
 
         needed = expNeeded(level);
+    }
+
+    if (oldLevel !== level) {
+        //TODO: DM USER WHAT THEY UNLOCKED
     }
 }

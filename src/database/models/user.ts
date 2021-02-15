@@ -123,7 +123,7 @@ export const userSchema = new mongoose.Schema({
             "INDIAN",
             "ARCTIC",
         ],
-        default: ["NORTH_PACIFIC"],
+        default: "NORTH_PACIFIC",
     },
     banned: {
         type: Boolean,
