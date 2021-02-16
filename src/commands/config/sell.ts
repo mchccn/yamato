@@ -42,17 +42,25 @@ export default {
             if (s.length) items.push(...s);
         }
 
+        if (!items.length) {
+            message.channel.send(`You don't have that item!`);
+            return "invalid";
+        }
+
         let item: IWeapon | IShip;
 
         if (items.length > 1) {
             await message.channel.send(
                 `It seems that you have multiple items. Which one do you want to sell?`,
-                new AeroEmbed().setColor("RANDOM").setDescription(
-                    items
-                        .sort((a, b) => a.level - b.level)
-                        .map((i, idx) => `${idx + 1} – lvl ${i.level} ${i.name}`)
-                        .join("\n")
-                )
+                new AeroEmbed()
+                    .setColor("RANDOM")
+                    .setTitle(`Pick a number:`)
+                    .setDescription(
+                        items
+                            .sort((a, b) => a.level - b.level)
+                            .map((i, idx) => `${idx + 1} – lvl ${i.level} ${i.name}`)
+                            .join("\n")
+                    )
             );
 
             const index = await utils.getReply(message, {
@@ -70,11 +78,14 @@ export default {
             item = items[parseInt(index.content) - 1];
         } else item = items[0];
 
-        const refund = Math.round(item.cost / 3 + item.level);
+        const refund = Math.round(item.cost / 3 + item.level - 1);
 
         const confirm = await message.channel.send(
             `Are you sure you want to refund a **level ${item.level} ${item.name}** for **${refund}** coins?`
         );
+
+        await confirm.react("❌");
+        await confirm.react("✅");
 
         const choice = (
             await confirm.awaitReactions(
@@ -86,6 +97,8 @@ export default {
                 }
             )
         ).first()?.emoji.name;
+
+        if (!choice) return;
 
         if (choice === "❌") {
             message.channel.send(`Refund canceled.`);
@@ -99,6 +112,8 @@ export default {
         } else {
             user.ships = user.ships.filter((w) => w._id !== item._id);
         }
+
+        await user.save();
 
         return message.channel.send(
             `You sold a **level ${item.level} ${item.name}** and got **${refund}** coins back!`

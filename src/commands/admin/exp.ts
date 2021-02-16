@@ -1,5 +1,5 @@
 import { Command } from "@aeroware/aeroclient/dist/types";
-import users from "../../database/models/user";
+import addExp from "../../utils/leveling";
 
 export default {
     name: "exp",
@@ -8,14 +8,10 @@ export default {
     category: "admin",
     hidden: true,
     staffOnly: true,
-    async callback({ message, args }) {
+    async callback({ message, args, client }) {
         const exp = parseInt(args[0]) || 0;
 
-        await users.findByIdAndUpdate(message.author.id, {
-            $inc: {
-                exp,
-            },
-        });
+        await addExp(message.author.id, exp, client);
 
         return message.channel.send(`Added ${exp} exp to you!`);
     },

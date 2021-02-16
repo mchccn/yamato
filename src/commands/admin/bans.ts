@@ -12,6 +12,8 @@ export default {
             banned: true,
         });
 
+        if (!all.length) return message.channel.send(`No banned users.`);
+
         const fields = utils.chunk(all, 10);
 
         const pages = fields.map((f, i) =>

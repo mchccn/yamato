@@ -13,9 +13,12 @@ export interface IPureUser {
     fleet: IUser["fleet"];
     wins: IUser["wins"];
     battles: IUser["battles"];
+    log: IUser["log"];
     trophies: IUser["trophies"];
     league: IUser["league"];
     ocean: IUser["ocean"];
+    coinBoost: IUser["coinBoost"];
+    expBoost: IUser["expBoost"];
     banned: IUser["banned"];
 }
 
@@ -30,6 +33,13 @@ export interface IUser extends Document {
     fleet: IShip[];
     wins: number;
     battles: number;
+    log: {
+        time: number;
+        opponent: string;
+        allyShipsSunk: number;
+        enemyShipsSunk: number;
+        lost: boolean;
+    }[];
     trophies: number;
     league:
         | "BRONZE"
@@ -49,6 +59,8 @@ export interface IUser extends Document {
         | "SOUTH_ATLANTIC"
         | "INDIAN"
         | "ARCTIC";
+    coinBoost: boolean;
+    expBoost: boolean;
     banned: boolean;
 }
 
@@ -93,6 +105,33 @@ export const userSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    log: {
+        type: [
+            {
+                time: {
+                    type: Number,
+                    required: true,
+                },
+                opponent: {
+                    type: String,
+                    required: true,
+                },
+                allyShipsSunk: {
+                    type: String,
+                    required: true,
+                },
+                enemyShipsSunk: {
+                    type: String,
+                    required: true,
+                },
+                lost: {
+                    type: Boolean,
+                    required: true,
+                },
+            },
+        ],
+        default: [],
+    },
     trophies: {
         type: Number,
         default: 0,
@@ -124,6 +163,14 @@ export const userSchema = new mongoose.Schema({
             "ARCTIC",
         ],
         default: "NORTH_PACIFIC",
+    },
+    coinBoost: {
+        type: Boolean,
+        default: false,
+    },
+    expBoost: {
+        type: Boolean,
+        default: false,
     },
     banned: {
         type: Boolean,

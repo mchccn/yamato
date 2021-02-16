@@ -11,7 +11,7 @@ export default {
     usage: "<weapons/ships/extras>",
     description: "Displays item info neatly in a pagination.",
     details: "Only displays items you unlocked.",
-    category: "shop",
+    category: "economy",
     cooldown: 5,
     async callback({ message, args }) {
         const user = (await users.findById(message.author.id))!;

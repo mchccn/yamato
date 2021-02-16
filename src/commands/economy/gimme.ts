@@ -12,12 +12,14 @@ export default {
     async callback({ message, args, client }) {
         const user = (await users.findById(message.author.id))!;
 
-        const coins = Math.max(
-            args.filter((a) => a.toUpperCase() === a).length +
-                Math.floor(Math.random() * 5) +
-                5,
-            25 + Math.floor(Math.random() * 5)
-        );
+        const coins =
+            Math.max(
+                args.filter((a) => a.toUpperCase() === a).length +
+                    Math.floor(Math.random() * 5) +
+                    5,
+                25 + Math.floor(Math.random() * 5)
+            ) *
+            (user.level + 1);
 
         user.coins += coins;
 

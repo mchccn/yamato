@@ -39,7 +39,7 @@ ${((user.wins / user.battles || 0) * 100).toFixed(2)}% win rate | ${user.battles
                 .addField(
                     `${user.coins} coins`,
                     `**Level ${user.level}**\n${user.exp} exp earned\n${`\`\`\`${"█"
-                        .repeat(((user.exp / expNeeded(user.level)) * 100) / 4)
+                        .repeat((user.exp / expNeeded(user.level)) * 25)
                         .padEnd(25, " ")}\`\`\``}`
                 )
                 .setThumbnail(apiUser.displayAvatarURL({ dynamic: true }))

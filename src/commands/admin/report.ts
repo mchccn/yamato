@@ -8,9 +8,8 @@ export default {
     details: "Notifies staff when someone is being naughty.",
     category: "admin",
     cooldown: 60,
-    hidden: true,
     async callback({ message, args, client }) {
-        if (args[1]) {
+        if (!args[1]) {
             message.channel.send(`Please provide a reason.`);
             return "invalid";
         }

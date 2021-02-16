@@ -54,6 +54,9 @@ export default {
             `Are you sure you want to purchase **${args[0]}** for **${cost}** coins?`
         );
 
+        await confirm.react("❌");
+        await confirm.react("✅");
+
         const choice = (
             await confirm.awaitReactions(
                 (r: MessageReaction, u: User) =>
@@ -64,6 +67,8 @@ export default {
                 }
             )
         ).first()?.emoji.name;
+
+        if (!choice) return;
 
         if (choice === "❌") {
             message.channel.send(`Purchase canceled.`);
@@ -77,6 +82,8 @@ export default {
         } else {
             user.ships.push(item);
         }
+
+        await user.save();
 
         return message.channel.send(
             `You purchased a new **${args[0]}** for **${cost}** coins!`
