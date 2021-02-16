@@ -19,7 +19,7 @@ dotenv();
             prefix: ".",
             allowSpaces: true,
             commandsPath: "commands",
-            staff: ["508442553754845184"],
+            staff: ["508442553754845184", "564930157371195437"],
             disableStaffCooldowns: true,
             logging: true,
         });
@@ -44,7 +44,10 @@ dotenv();
                 if (!expBuffer.get(message.author.id)) {
                     expBuffer.set(message.author.id, true);
                     addExp(message.author.id, 1);
-                    setTimeout(() => expBuffer.delete(message.author.id), 60000);
+                    setTimeout(
+                        () => expBuffer.delete(message.author.id),
+                        60000
+                    );
                 }
             }
 
