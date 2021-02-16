@@ -11,7 +11,7 @@ export default {
     usage: "[user]",
     description: "View your profile and stats.",
     details: "Displays a user's profile if a user is supplied.",
-    category: "general",
+    category: "utility",
     cooldown: 2.5,
     async callback({ message, args, client }) {
         if (args[0] && !/\d{18}/.test(args[0])) {
