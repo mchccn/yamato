@@ -7,6 +7,7 @@ export default {
     usage: "<levels>",
     category: "admin",
     hidden: true,
+    staffOnly: true,
     async callback({ message, args }) {
         const levels = parseInt(args[0]) || 0;
 

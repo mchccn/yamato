@@ -2,9 +2,9 @@ import { Command } from "@aeroware/aeroclient/dist/types";
 import users from "../../database/models/user";
 
 export default {
-    name: "delete",
+    name: "ban",
     args: true,
-    usage: "<id>",
+    usage: "<ids>",
     category: "admin",
     hidden: true,
     staffOnly: true,
@@ -12,7 +12,10 @@ export default {
         for (const arg of args) {
             const user = await users.findById(arg);
 
-            if (user) await user.delete();
+            if (user) {
+                user.banned = true;
+                await user.save();
+            }
         }
 
         return message.react("👌");

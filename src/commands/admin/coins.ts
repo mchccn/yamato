@@ -7,6 +7,7 @@ export default {
     usage: "<coins>",
     category: "admin",
     hidden: true,
+    staffOnly: true,
     async callback({ message, args }) {
         const coins = parseInt(args[0]) || 0;
 

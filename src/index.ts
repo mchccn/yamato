@@ -43,7 +43,7 @@ dotenv();
 
                 if (!expBuffer.get(message.author.id)) {
                     expBuffer.set(message.author.id, true);
-                    addExp(message.author.id, 1);
+                    addExp(message.author.id, 1, client);
                     setTimeout(() => expBuffer.delete(message.author.id), 60000);
                 }
             }

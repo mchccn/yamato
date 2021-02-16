@@ -1,10 +1,11 @@
+import AeroClient from "@aeroware/aeroclient";
 import users from "../database/models/user";
 
 export function expNeeded(level: number): number {
     return Math.sqrt(level) * 100;
 }
 
-export default async function addExp(id: string, amount: number) {
+export default async function addExp(id: string, amount: number, client: AeroClient) {
     const user = (await users.findByIdAndUpdate(
         id,
         {
@@ -34,6 +35,12 @@ export default async function addExp(id: string, amount: number) {
     }
 
     if (oldLevel !== level) {
-        //TODO: DM USER WHAT THEY UNLOCKED
+        const unlocked = [];
+
+        const apiUser = await client.users.fetch(id);
+
+        const dm = await apiUser.createDM();
+
+        await dm.send(`**You leveled up! You are now level ${level} and unlocked:**`);
     }
 }

@@ -7,6 +7,7 @@ export default {
     usage: "<exp>",
     category: "admin",
     hidden: true,
+    staffOnly: true,
     async callback({ message, args }) {
         const exp = parseInt(args[0]) || 0;
 

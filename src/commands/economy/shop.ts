@@ -70,7 +70,16 @@ export default {
                                     } damage\nCrit chance: ${w.critChance.toFixed(2)}%`
                                 )
                                 .setColor(color)
-                        )
+                        ),
+                    {
+                        fastForwardAndRewind: {
+                            time: 10000,
+                        },
+                        goTo: {
+                            time: 10000,
+                        },
+                        time: 120000,
+                    }
                 );
             case "ships":
                 return utils.paginate(
@@ -109,7 +118,16 @@ export default {
                                     `Heavies: ${s.weapons.heavySlots}\nMediums: ${s.weapons.mediumSlots}\nLights: ${s.weapons.lightSlots}`
                                 )
                                 .setColor(color)
-                        )
+                        ),
+                    {
+                        fastForwardAndRewind: {
+                            time: 10000,
+                        },
+                        goTo: {
+                            time: 10000,
+                        },
+                        time: 120000,
+                    }
                 );
             case "extras":
                 return message.channel.send(`\`extras\` is still in beta.`);
