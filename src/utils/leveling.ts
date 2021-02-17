@@ -1,5 +1,7 @@
 import AeroClient from "@aeroware/aeroclient";
+import ships from "../database/models/ship";
 import users from "../database/models/user";
+import weapons from "../database/models/weapon";
 import { coins, shipSlots } from "./rewards";
 
 export function expNeeded(level: number): number {
@@ -45,7 +47,19 @@ export default async function addExp(id: string, amount: number, client: AeroCli
 
         await user.save();
 
-        const unlocked = [];
+        const unlockedWeapons = await weapons.find({
+            levelRequired: {
+                $lte: level,
+                $gte: oldLevel,
+            },
+        });
+
+        const unlockedShips = await ships.find({
+            levelRequired: {
+                $lte: level,
+                $gte: oldLevel,
+            },
+        });
 
         const apiUser = await client.users.fetch(id);
 
@@ -54,7 +68,11 @@ export default async function addExp(id: string, amount: number, client: AeroCli
         await dm.send(
             `You leveled up and got **${reward}** coins${
                 oldSlots !== user.shipSlots ? " **and unlocked a new ship slot**" : ""
-            }! You are now level ${level} and unlocked:`
+            }! You are now level ${level} and unlocked:\n${
+                unlockedShips.map((s) => `**${s.name}**`).join("\n") +
+                    "\n" +
+                    unlockedShips.map((s) => `**${s.name}**`).join("\n") || "**nothing**"
+            }`
         );
     }
 }

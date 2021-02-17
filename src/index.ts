@@ -19,7 +19,7 @@ dotenv();
             prefix: ".",
             allowSpaces: true,
             commandsPath: "commands",
-            staff: ["508442553754845184"],
+            staff: ["508442553754845184", "564930157371195437"],
             disableStaffCooldowns: true,
             logging: true,
         });
