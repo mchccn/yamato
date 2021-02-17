@@ -4,7 +4,7 @@ import { MessageReaction, User } from "discord.js";
 import ships, { IShip } from "../../database/models/ship";
 import users from "../../database/models/user";
 import weapons, { IWeapon } from "../../database/models/weapon";
-import { calculateUpgradeCost } from "../../utils/calculate";
+import { calculateMaxHealth, calculateUpgradeCost } from "../../utils/calculate";
 
 export default {
     name: "upgrade",
@@ -132,6 +132,8 @@ export default {
 
             if (ship.level !== ship.maxLevel) {
                 ship.level++;
+
+                ship.maxHealth = ship.health = calculateMaxHealth(ship);
 
                 user.coins -= cost;
                 await user.save();

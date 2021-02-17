@@ -12,7 +12,10 @@ export default {
     async callback({ message }) {
         const user = (await users.findById(message.author.id))!;
 
-        const coins = Math.max(user.trophies + Math.floor(Math.random() * 10 - 5), 0) + 1;
+        const coins = Math.round(
+            (Math.max(user.trophies + Math.floor(Math.random() * 10 - 5), 0) + 1) *
+                (1 + user.rank / 100)
+        );
 
         return message.channel.send(
             `${YAMATO_COIN} You received ${coins} coin${coins !== 1 ? "s" : ""}!`

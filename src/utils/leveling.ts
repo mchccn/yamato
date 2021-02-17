@@ -9,17 +9,9 @@ export function expNeeded(level: number): number {
 }
 
 export default async function addExp(id: string, amount: number, client: AeroClient) {
-    const user = (await users.findByIdAndUpdate(
-        id,
-        {
-            $inc: { exp: amount },
-        },
-        {
-            upsert: true,
-        }
-    ))!;
+    const user = (await users.findById(id))!;
 
-    let exp = user.exp;
+    let exp = Math.round(amount * (1 + user.rank));
     let oldLevel = user.level;
     let level = user.level;
 
@@ -50,14 +42,14 @@ export default async function addExp(id: string, amount: number, client: AeroCli
         const unlockedWeapons = await weapons.find({
             levelRequired: {
                 $lte: level,
-                $gte: oldLevel,
+                $gt: oldLevel,
             },
         });
 
         const unlockedShips = await ships.find({
             levelRequired: {
                 $lte: level,
-                $gte: oldLevel,
+                $gt: oldLevel,
             },
         });
 
@@ -69,9 +61,11 @@ export default async function addExp(id: string, amount: number, client: AeroCli
             `You leveled up and got **${reward}** coins${
                 oldSlots !== user.shipSlots ? " **and unlocked a new ship slot**" : ""
             }! You are now level ${level} and unlocked:\n${
-                unlockedShips.map((s) => `**${s.name}**`).join("\n") +
+                (
+                    unlockedShips.map((s) => `**${s.name}**`).join("\n") +
                     "\n" +
-                    unlockedShips.map((s) => `**${s.name}**`).join("\n") || "**nothing**"
+                    unlockedWeapons.map((s) => `**${s.name}**`).join("\n")
+                ).trim() || "**nothing**"
             }`
         );
     }

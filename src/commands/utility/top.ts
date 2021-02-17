@@ -1,5 +1,5 @@
 import { Command } from "@aeroware/aeroclient/dist/types";
-import { IPureShip, IShip } from "../../database/models/ship";
+import { IShip } from "../../database/models/ship";
 import users, { IUser } from "../../database/models/user";
 import { IWeapon } from "../../database/models/weapon";
 import Embed from "../../utils/Embed";
@@ -13,14 +13,14 @@ export default {
     minArgs: 1,
     description: "Shows the leaderboard, sorted based on the property you specify.",
     details:
-        "The currently supported properties are: `trophies`, `power`, `wins`, `battles`, `coins`, and `level`.",
+        "The currently supported properties are: `trophies`, `power`, `wins`, `battles`, `coins`, `rank`, and `level`.",
     category: "utility",
     async callback({ message, args, client }) {
         const userArr = await users.find();
 
         let sorted: IUser[];
 
-        if (["trophies", "wins", "battles", "coins", "level"].includes(args[0])) {
+        if (["trophies", "wins", "battles", "coins", "rank", "level"].includes(args[0])) {
             sorted = sortArrByNumber(userArr, args[0], false);
         } else if (args[0] === "power") {
             sorted = userArr.sort(
@@ -29,7 +29,7 @@ export default {
                     a.fleet.reduce((a, b) => a + shipPower(b), 0)
             );
         } else {
-            message.channel.send("This isn't a thing yet.");
+            message.channel.send("That isn't a thing yet.");
             return "invalid";
         }
 
@@ -43,11 +43,11 @@ export default {
                             [":first_place:", ":second_place:", ":third_place:"][pos] ||
                             ":medal:"
                         } - **${(await client.users.fetch(user._id))?.tag}** : ${
-                            args[0] === "level" ? "level " : ""
+                            ["rank", "level"].includes(args[0]) ? `${args[0]} ` : ""
                         }${
                             // @ts-ignore
                             sorted[pos][args[0]]
-                        } ${args[0] === "level" ? "" : args[0]}`
+                        }${["rank", "level"].includes(args[0]) ? "" : ` ${args[0]}`}`
                 )
             )
         ).join("\n");
@@ -83,7 +83,7 @@ function sortArrByNumber(arr: any[], prop: string, ascending: boolean) {
     return arr.sort((a, b) => (ascending ? a[prop] - b[prop] : b[prop] - a[prop]));
 }
 
-function shipPower(ship: IShip | IPureShip) {
+function shipPower(ship: IShip) {
     const classToNum = (str: IShip["class"]) => {
         switch (str) {
             case "CRUISER":
@@ -114,9 +114,7 @@ function shipPower(ship: IShip | IPureShip) {
         }
     };
 
-    const weaponPower = (weapon: IWeapon) => {
-        return weaponClass(weapon.type) + weapon.level;
-    };
+    const weaponPower = (weapon: IWeapon) => weaponClass(weapon.type) + weapon.level;
 
     return Math.round(
         (ship.weapons.heavies.reduce((a, b) => a + weaponPower(b), 0) +

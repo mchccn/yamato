@@ -22,8 +22,13 @@ export default {
             case "weapons":
                 return utils.paginate(
                     message,
-                    (await weapons.find())
-                        .filter((w) => w.levelRequired <= user.level)
+                    (
+                        await weapons.find({
+                            levelRequired: {
+                                $lte: user.level,
+                            },
+                        })
+                    )
                         .sort((a, b) =>
                             a.levelRequired === b.levelRequired
                                 ? a.type === b.type
@@ -84,8 +89,13 @@ export default {
             case "ships":
                 return utils.paginate(
                     message,
-                    (await ships.find())
-                        .filter((s) => s.levelRequired <= user.level)
+                    (
+                        await ships.find({
+                            levelRequired: {
+                                $lte: user.level,
+                            },
+                        })
+                    )
                         .sort((a, b) => a.levelRequired - b.levelRequired)
                         .map((s) =>
                             new AeroEmbed()
@@ -130,7 +140,55 @@ export default {
                     }
                 );
             case "extras":
-                return message.channel.send(`\`extras\` is still in beta.`);
+                return message.channel.send(
+                    new AeroEmbed()
+                        .setTitle("Extras")
+                        .setColor("RANDOM")
+                        .threeByThree([
+                            [
+                                {
+                                    name: "small exp boost",
+                                    value: `Gives you a small exp boost.`,
+                                },
+                                {
+                                    name: "exp boost",
+                                    value: `Gives you an exp boost.`,
+                                },
+                                {
+                                    name: "large exp boost",
+                                    value: `Gives you a large exp boost.`,
+                                },
+                            ],
+                            [
+                                {
+                                    name: "1 hour exp booster",
+                                    value: `Great for a few battles.`,
+                                },
+                                {
+                                    name: "4 hour exp booster",
+                                    value: `Amazing for anything.`,
+                                },
+                                {
+                                    name: "1 day exp booster",
+                                    value: `One day of more exp!`,
+                                },
+                            ],
+                            [
+                                {
+                                    name: "1 hour coin booster",
+                                    value: `Great for a few battles.`,
+                                },
+                                {
+                                    name: "4 hour coin booster",
+                                    value: `Amazing for anything.`,
+                                },
+                                {
+                                    name: "1 day coin booster",
+                                    value: `One day of more coins!`,
+                                },
+                            ],
+                        ])
+                );
             default:
                 return message.channel.send(
                     `You can only view \`weapons\`, \`ships\`, and \`extras\`.`

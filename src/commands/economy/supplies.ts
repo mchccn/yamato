@@ -16,11 +16,13 @@ export default {
         const supplies = supplyCrates[user.league];
 
         const coins = Math.floor(
-            Math.random() * (supplies.coins.max - supplies.coins.min) + supplies.coins.min
+            (Math.random() * (supplies.coins.max - supplies.coins.min) + supplies.coins.min) *
+                (1 + user.rank)
         );
 
         const exp = Math.floor(
-            Math.random() * (supplies.exp.max - supplies.exp.min) + supplies.exp.min
+            (Math.random() * (supplies.exp.max - supplies.exp.min) + supplies.exp.min) *
+                (1 + user.rank)
         );
 
         user.coins += coins;

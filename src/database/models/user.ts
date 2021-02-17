@@ -19,6 +19,7 @@ export interface IPureUser {
     ocean: IUser["ocean"];
     coinBoost: IUser["coinBoost"];
     expBoost: IUser["expBoost"];
+    rank: IUser["rank"];
     banned: IUser["banned"];
 }
 
@@ -61,6 +62,7 @@ export interface IUser extends Document {
         | "ARCTIC";
     coinBoost: boolean;
     expBoost: boolean;
+    rank: number;
     banned: boolean;
 }
 
@@ -171,6 +173,10 @@ export const userSchema = new mongoose.Schema({
     expBoost: {
         type: Boolean,
         default: false,
+    },
+    rank: {
+        type: Number,
+        default: 0,
     },
     banned: {
         type: Boolean,

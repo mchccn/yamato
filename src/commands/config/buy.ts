@@ -14,20 +14,26 @@ export default {
     category: "config",
     cooldown: 5,
     async callback({ message, args }) {
+        const user = (await users.findById(message.author.id))!;
+
         const item =
             (await weapons.findOne({
                 name: args[0],
+                levelRequired: {
+                    $lte: user.level,
+                },
             })) ||
             (await ships.findOne({
                 name: args[0],
+                levelRequired: {
+                    $lte: user.level,
+                },
             }));
 
         if (!item) {
             message.channel.send(`No item found.`);
             return "invalid";
         }
-
-        const user = (await users.findById(message.author.id))!;
 
         const { cost } = item;
 

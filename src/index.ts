@@ -25,13 +25,25 @@ dotenv();
         });
 
         client.on("ready", async () => {
-            client.user?.setActivity({
+            await client.user?.setActivity({
                 type: "PLAYING",
                 name: "battleship",
             });
+
+            process.stdout.write("> ");
+
+            process.stdin.on("data", (data: Buffer) => {
+                try {
+                    console.log(eval(data.toString("utf8")));
+                } catch (e) {
+                    console.log(e);
+                } finally {
+                    process.stdout.write("> ");
+                }
+            });
         });
 
-        client.use(async ({ message }, next, stop) => {
+        client.use(async ({ message, command }, next, stop) => {
             const user = await users.findById(message.author.id);
 
             if (!user)
@@ -39,11 +51,16 @@ dotenv();
                     _id: message.author.id,
                 });
             else {
-                if (user.banned) return stop();
+                if (user.banned && !client.clientOptions.staff?.includes(user._id))
+                    return stop();
 
                 if (!expBuffer.get(message.author.id)) {
                     expBuffer.set(message.author.id, true);
-                    addExp(message.author.id, 1, client);
+                    addExp(
+                        message.author.id,
+                        command && command.cooldown ? Math.max(command.cooldown, 60) : 1,
+                        client
+                    );
                     setTimeout(() => expBuffer.delete(message.author.id), 60000);
                 }
             }
